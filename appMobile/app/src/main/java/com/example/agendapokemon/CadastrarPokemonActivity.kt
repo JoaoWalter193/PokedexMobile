@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +15,7 @@ import com.example.agendapokemon.Model.PokemonInserir
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -58,7 +60,7 @@ class CadastrarPokemonActivity : AppCompatActivity() {
     }
 
 
-    fun cadastrarPokemon(view: View){
+    fun cadastrarPokemon(view: View) {
 
         val nomePokemon = textNome.text.toString()
         val tipoPokemon = textTipo.text.toString()
@@ -68,12 +70,12 @@ class CadastrarPokemonActivity : AppCompatActivity() {
 
 
         // validar se está preenchido
-        if (nomePokemon.isEmpty() || tipoPokemon.isEmpty()){
+        if (nomePokemon.isEmpty() || tipoPokemon.isEmpty()) {
             Toast.makeText(this, "Preencha Nome e Tipo", Toast.LENGTH_SHORT).show()
             return
         }
 
-        if (hab1.isEmpty() && hab2.isEmpty() && hab3.isEmpty() ){
+        if (hab1.isEmpty() && hab2.isEmpty() && hab3.isEmpty()) {
             Toast.makeText(this, "Preencha pelo menos uma habilidade", Toast.LENGTH_SHORT).show()
             return
         }
@@ -81,38 +83,58 @@ class CadastrarPokemonActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val habilidades = listOf(hab1, hab2, hab3).filter { it.isNotEmpty() }
-            val cadastroPokemon = PokemonInserir(nomePokemon,tipoPokemon,habilidades, UsuarioLogado.nomeUsuario)
-                val response = withContext(Dispatchers.IO){
+                val cadastroPokemon =
+                    PokemonInserir(nomePokemon, tipoPokemon, habilidades, UsuarioLogado.nomeUsuario)
+                val response = withContext(Dispatchers.IO) {
                     api.cadastrarPokemon(cadastroPokemon)
                 }
-                Toast.makeText(this@CadastrarPokemonActivity, "Pokemon: ${nomePokemon} cadastrado com sucesso!!",
-                    Toast.LENGTH_SHORT).show()
+
+                AlertDialog.Builder(this@CadastrarPokemonActivity)
+                    .setTitle("Pokémon - Cadastro")
+                    .setMessage(response.message)
+                    .setPositiveButton("OK") { _, _ ->
+                        finish()
+                    }
+                    .setCancelable(false)
+                    .show()
 
                 textNome.setText("")
                 textTipo.setText("")
                 textHabilidade1.setText("")
                 textHabilidade2.setText("")
                 textHabilidade3.setText("")
-                // achei que fica mais "clean" dar o finish
-                finish()
 
             } catch (e: HttpException) {
                 when (e.code()) {
-                    400 -> Toast.makeText(
-                        this@CadastrarPokemonActivity,
-                        "Pokémon já existe ou dados inválidos",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    400 -> {
+                        val errorBody = e.response()?.errorBody()?.string()
+                        val message = JSONObject(errorBody).getString("message")
+                        AlertDialog.Builder(this@CadastrarPokemonActivity)
+                            .setTitle("Pokémon - Cadastro")
+                            .setMessage(message)
+                            .setPositiveButton("OK") { _, _ ->
+                                finish()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    }
 
-                    500 -> Toast.makeText(
-                        this@CadastrarPokemonActivity,
-                        "Erro no servidor",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    500 -> {
+                        val errorBody = e.response()?.errorBody()?.string()
+                        val message = JSONObject(errorBody).getString("message")
+                        AlertDialog.Builder(this@CadastrarPokemonActivity)
+                            .setTitle("Pokémon - Cadastro")
+                            .setMessage(message)
+                            .setPositiveButton("OK") { _, _ ->
+                                finish()
+                            }
+                            .setCancelable(false)
+                            .show()
+                    }
+
                 }
-
             }
-        }
 
+        }
     }
 }

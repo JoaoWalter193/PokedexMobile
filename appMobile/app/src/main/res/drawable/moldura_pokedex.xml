@@ -1,4 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-</selector>
+    <item android:drawable="@color/moldura_externa_escura"/>
+
+    <item
+        android:top="10dp"
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:drawable="@color/moldura_externa_clara" />
+
+    <item
+        android:top="20dp"
+        android:bottom="20dp"
+        android:left="20dp"
+        android:right="20dp"
+        android:drawable="@color/content_inicio_escuro" />
+
+    <item
+        android:top="30dp"
+        android:bottom="30dp"
+        android:left="30dp"
+        android:right="30dp"
+        android:drawable="@color/content_inicio_claro" />
+
+</layer-list>

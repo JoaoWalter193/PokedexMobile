@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="moldura_externa_escura">#283840</color>
+    <color name="moldura_externa_clara">#606070</color>
+    <color name="content_inicio_escuro">#F8E088</color>
+    <color name="content_inicio_claro">#F8F8C8</color>
+    <color name="texto_padrao">#000000</color>
 </resources>

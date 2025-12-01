@@ -3,19 +3,27 @@
 
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#cd9c52" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
 
-    <item android:margin="4dp">
+    <item
+        android:insetLeft="4dp"
+        android:insetTop="4dp"
+        android:insetRight="4dp"
+        android:insetBottom="4dp">
         <shape android:shape="rectangle">
-            <solid android:color="#ffc55a" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
 
-    <item android:margin="8dp">
+    <item
+        android:insetLeft="8dp"
+        android:insetTop="8dp"
+        android:insetRight="8dp"
+        android:insetBottom="8dp">
         <shape android:shape="rectangle">
-            <solid android:color="#ffd5b4" />
+            <solid android:color="@android:color/transparent" />
         </shape>
     </item>
 

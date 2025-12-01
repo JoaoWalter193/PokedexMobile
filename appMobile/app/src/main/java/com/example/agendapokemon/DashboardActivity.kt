@@ -38,6 +38,7 @@ class DashboardActivity : AppCompatActivity() {
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar2)
         setSupportActionBar(toolbar)
+        toolbar.popupTheme = R.style.PokemonPopupMenu
 
         textCadastrado = findViewById(R.id.textViewCadastrado)
         textHabilidade = findViewById(R.id.textViewHabilidade)
