@@ -83,7 +83,7 @@ class DashboardActivity : AppCompatActivity() {
             }
 
             R.id.menu_sair -> {
-                finish()
+                finishAffinity()
             }
         }
 
